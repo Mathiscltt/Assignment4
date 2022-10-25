@@ -15,30 +15,30 @@
     <form id="form">
         <div>
             <label for="name">Name</label>
-            <input type="text" id="name"><br>
+            <input type="text" id="name" name="name"><br>
             <label for="email">Email</label>
-            <input type="text" id="email">
-            <button type="submit" id="insert" onclick="addUser">INSERT</button>
+            <input type="text" id="email" name="email">
+            <button type="submit" id="insert">INSERT</button>
         </div>
     </form><br><br>
 
-    <form action="">
+    <form id="form2">
         <div>
             <label for="id2">ID</label>
-            <input type="text" id="id2"><br>
+            <input type="text" id="id2" name="id"><br>
             <label for="name2">Name</label>
-            <input type="text" id="name2"><br>
+            <input type="text" id="name2" name="name"><br>
             <label for="email2">Email</label>
-            <input type="text" id="email2">
-            <button type="button" id="update" onclick="">UPDATE</button>
+            <input type="text" id="email2" name="email">
+            <button type="button" id="update">UPDATE</button>
         </div>
     </form><br><br>
 
-    <form action="">
+    <form id="form3">
         <div>
             <label for="id3">ID</label>
-            <input type="text" id="id3"><br>
-            <button type="button" id="delete" onclick="">DELETE</button>
+            <input type="text" id="id3" name="id"><br>
+            <button type="button" id="delete">DELETE</button>
         </div>
     </form> <br><br>
 
@@ -49,22 +49,6 @@
     </div>
 
     <script type="text/javascript">
-        // function addUser() {
-        //     console.log("marche 1")
-        //     var form = $('#form');
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "http://localhost:3000/users",
-        //         data: form.serialize(),
-        //         statusCode: {
-        //             201: function (response) {
-        //                 alert(JSON.stringify(response));
-        //             }
-        //         }
-        //     })
-
-        //     console.log("marche 1")
-        // }
 
         $('#insert').click(function () {
             var form = $('#form');
@@ -78,9 +62,39 @@
                     }
                 }
             })
+            return false;
         });
-    </script>
-    <script>
+        $('#delete').click(function () {
+            var form = $('#form3');
+            $.ajax({
+                type: "DELETE",
+                url: "http://localhost:3000/users/" + form.serializeArray()[0].value,
+                data: form.serialize(),
+                statusCode: {
+                    201: function (response) {
+                        alert(JSON.stringify(response));
+                    }
+                }
+            })
+            return false;
+        });
+        $('#update').click(function () {
+            var form = $('#form2');
+            $.ajax({
+                type: "PUT",
+                url: "http://localhost:3000/users/" + form.serializeArray()[0].value,
+                data: {
+                    'name': form.serializeArray()[1].value,
+                    'email': form.serializeArray()[2].value
+                },
+                statusCode: {
+                    201: function (response) {
+                        alert(JSON.stringify(response));
+                    }
+                }
+            })
+            return false;
+        });
         $('#read').click(function () {
             $("#table").fadeIn();
             document.getElementById('table').innerHTML = '';
@@ -95,11 +109,12 @@
                     for (var i = 0; i < result.length; i++) {
                         var div = document.createElement('div');
                         div.classList.add('userrow');
-                        div.innerHTML = 'User: ' + result[i].name + ' - Email: ' + result[i].email;
+                        div.innerHTML = 'id : '+result[i].id+' - User: ' + result[i].name + ' - Email: ' + result[i].email;
                         mainContainer.appendChild(div);
                     }
                 }
             });
+            return false;
         });
         $("#hide").click(function () {
             $("#table").fadeOut();

@@ -1,0 +1,16 @@
+{
+  "name": "assignment4",
+  "version": "1.0.0",
+  "description": "RESTful API with Node.js, Express, and PostgreSQL",
+  "main": "index.js",
+  "license": "ISC",
+  "scripts": {
+    "app": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "knex": "^2.3.0",
+    "nodemon": "^2.0.20",
+    "pg": "^8.8.0"
+  }
+}

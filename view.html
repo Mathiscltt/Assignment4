@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <form id="form">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name"><br>
+            <label for="email">Email</label>
+            <input type="text" id="email">
+            <button type="submit" id="insert" onclick="addUser">INSERT</button>
+        </div>
+    </form><br><br>
+
+    <form action="">
+        <div>
+            <label for="id2">ID</label>
+            <input type="text" id="id2"><br>
+            <label for="name2">Name</label>
+            <input type="text" id="name2"><br>
+            <label for="email2">Email</label>
+            <input type="text" id="email2">
+            <button type="button" id="update" onclick="">UPDATE</button>
+        </div>
+    </form><br><br>
+
+    <form action="">
+        <div>
+            <label for="id3">ID</label>
+            <input type="text" id="id3"><br>
+            <button type="button" id="delete" onclick="">DELETE</button>
+        </div>
+    </form> <br><br>
+
+
+    <div>
+        <p id="table"></p>
+        <button type="button" id="read" onclick="">READ</button>
+    </div>
+
+    <script type="text/javascript">
+        // function addUser() {
+        //     console.log("marche 1")
+        //     var form = $('#form');
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "http://localhost:3000/users",
+        //         data: form.serialize(),
+        //         statusCode: {
+        //             201: function (response) {
+        //                 alert(JSON.stringify(response));
+        //             }
+        //         }
+        //     })
+
+        //     console.log("marche 1")
+        // }
+
+        $('#insert').click(function () {
+            var form = $('#form');
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:3000/users",
+                data: form.serialize(),
+                statusCode: {
+                    201: function (response) {
+                        alert(JSON.stringify(response));
+                    }
+                }
+            })
+        });
+    </script>
+    <script>
+        $('#read').click(function () {
+            $("#table").fadeIn();
+            document.getElementById('table').innerHTML = '';
+            $.ajax({
+                method: "GET",
+                url: "http://localhost:3000/users",
+                success: function (result) {
+                    var user = '';
+                    console.log(result)
+
+                    var mainContainer = document.getElementById("table");
+                    for (var i = 0; i < result.length; i++) {
+                        var div = document.createElement('div');
+                        div.classList.add('userrow');
+                        div.innerHTML = 'User: ' + result[i].name + ' - Email: ' + result[i].email;
+                        mainContainer.appendChild(div);
+                    }
+                }
+            });
+        });
+        $("#hide").click(function () {
+            $("#table").fadeOut();
+        })
+    </script>
+</body>
+
+</html>
